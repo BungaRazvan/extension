@@ -11,48 +11,48 @@ newDiv.innerHTML = `
 
 yt_menu.children[0].children[0].append(newDiv);
 
-newDiv.addEventListener("click", async () => {
-  canvas.toBlob(() => {
-    saveAs(new BlobBuilder(), "test.txt");
-  });
-});
+newDiv.addEventListener("click", () => {
+  const playlistName = document.getElementById("text-displayed").innerText;
+  const videos = document.querySelectorAll("ytd-playlist-video-renderer");
+  const titles = getVidoesTitles(videos);
 
-const videos = document.querySelectorAll("ytd-playlist-video-renderer");
-
-for (let video of videos) {
-  console.log(
-    video.children[1].children[0].children[1].textContent
-      .replaceAll("\n", "")
-      .replaceAll(/ +(?= )/g, "")
-      .replaceAll("•", "")
-  );
-}
-
-console.log(chrome.fileSystem);
-
-chrome.fileSystem.chooseEntry({ type: "openDirectory" }, function (entry) {
-  entry.getFile(
-    "newfilename.txt",
-    { create: true },
-    function (file) {
-      console.log(file);
-      file.createWriter(
-        function (writer) {
-          console.log(writer);
-          writer.write(new Blob(["hello"])); // async
-          writer.onwrite = function (e) {
-            writer.onwrite = null;
-            writer.truncate(writer.position); // in case we overwrite an exitsing file
-            console.log("Done", e);
-          };
-        },
-        function (err) {
-          console.error(err);
-        }
-      );
-    },
-    function (err) {
-      console.error(err);
+  const file = new File(
+    [JSON.stringify({ [playlistName]: titles })],
+    "foo.json",
+    {
+      type: "application/json",
     }
   );
+
+  const fileUrl = URL.createObjectURL(file);
+  const anchor = document.createElement("a");
+  anchor.href = fileUrl;
+  anchor.download = "foo.json";
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+
+  URL.revokeObjectURL(fileUrl);
+});
+
+function getVidoesTitles(videos) {
+  const titles = [];
+
+  for (let video of videos) {
+    titles.push(
+      video.children[1].children[0].children[1].textContent
+        .replaceAll("\n", "")
+        .replaceAll(/ +(?= )/g, "")
+        .replaceAll("•", "")
+        .trim()
+    );
+  }
+
+  return titles;
+}
+
+chrome.storage.local.set({ key: "testsssss" }, function () {});
+
+chrome.storage.local.get(["key"], function (result) {
+  console.log("Value currently is " + result.key);
 });
