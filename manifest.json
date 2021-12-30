@@ -11,10 +11,5 @@
       "matches": ["https://www.youtube.com/playlist?list=*"]
     }
   ],
-  "permissions": ["fileSystem"],
-  "optional_permissions": [
-    {
-      "fileSystem": ["write", "read", "directory"]
-    }
-  ]
+  "permissions": ["storage"]
 }
