@@ -53,6 +53,10 @@ function addBackupIcon() {
   </button>
   `;
 
+  if (!yt_menu) {
+    return;
+  }
+
   yt_menu.children[0].children[0].append(newDiv);
 }
 
