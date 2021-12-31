@@ -1,14 +1,14 @@
 {
-  "name": "yt-playlists",
-  "description": "Custom yt playlists features",
+  "name": "extension",
+  "description": "Custom features",
   "version": "1.0",
   "manifest_version": 3,
 
   "content_scripts": [
     {
-      "js": ["backup.js"],
-      "css": ["backup.css"],
-      "matches": ["https://www.youtube.com/playlist?list=*"]
+      "js": ["youtube.js"],
+      "css": ["youtube.css"],
+      "matches": ["https://www.youtube.com/"]
     }
   ],
   "permissions": ["storage"]

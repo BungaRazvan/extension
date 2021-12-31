@@ -1,4 +1,5 @@
 const newDiv = document.createElement("div");
+console.log("run");
 
 newDiv.addEventListener("click", () => {
   const playlistName = document.getElementById("text-displayed").innerText;
@@ -55,6 +56,12 @@ function addBackupIcon() {
 }
 
 setInterval(() => {
+  if (
+    !window.location.href.includes("https://www.youtube.com/playlist?list=")
+  ) {
+    return;
+  }
+
   const backupExists =
     document.getElementsByClassName("custom-button-backup").length == 0;
 
@@ -65,8 +72,8 @@ setInterval(() => {
   addBackupIcon();
 }, 0);
 
-chrome.storage.local.set({ key: "testsssss" }, function () {});
+// chrome.storage.local.set({ key: "testsssss" }, function () {});
 
-chrome.storage.local.get(["key"], function (result) {
-  console.log("Value currently is " + result.key);
-});
+// chrome.storage.local.get(["key"], function (result) {
+//   console.log("Value currently is " + result.key);
+// });
