@@ -1,4 +1,5 @@
-.custom-button-backup {
+.custom-button-backup,
+.custom-button-loop {
   width: 40px;
   height: 40px;
   border: none;
@@ -7,7 +8,26 @@
   cursor: pointer;
 }
 
-.custom-button-backup svg {
+.custom-button-backup svg,
+.custom-button-loop svg {
   fill: #fff;
   width: 20px;
+}
+
+.custom-button-loop-container {
+  cursor: pointer;
+  display: flex;
+  color: #fff;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  align-items: center;
+  font-weight: 500;
+}
+
+.custom-button-loop-container p {
+  margin-bottom: 4px;
+}
+
+.d-none {
+  display: none;
 }
