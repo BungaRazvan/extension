@@ -1,5 +1,5 @@
+let clickedLoopCount = 0;
 const newDiv = document.createElement("div");
-console.log("run");
 
 newDiv.addEventListener("click", () => {
   const playlistName = document.getElementById("text-displayed").innerText;
@@ -20,8 +20,9 @@ newDiv.addEventListener("click", () => {
   anchor.download = "foo.json";
   document.body.appendChild(anchor);
   anchor.click();
-  document.body.removeChild(anchor);
 
+  // Clean up
+  document.body.removeChild(anchor);
   URL.revokeObjectURL(fileUrl);
 });
 
@@ -55,21 +56,21 @@ function addBackupIcon() {
   yt_menu.children[0].children[0].append(newDiv);
 }
 
+function checkUrl(url) {
+  return window.location.href.includes(url);
+}
+
 setInterval(() => {
-  if (
-    !window.location.href.includes("https://www.youtube.com/playlist?list=")
-  ) {
-    return;
+  if (checkUrl("/playlist?list=")) {
+    const backupExists =
+      document.getElementsByClassName("custom-button-backup").length == 0;
+
+    if (!backupExists) {
+      return;
+    }
+
+    addBackupIcon();
   }
-
-  const backupExists =
-    document.getElementsByClassName("custom-button-backup").length == 0;
-
-  if (!backupExists) {
-    return;
-  }
-
-  addBackupIcon();
 }, 0);
 
 // chrome.storage.local.set({ key: "testsssss" }, function () {});
