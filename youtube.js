@@ -116,13 +116,13 @@ function checkUrl(str) {
 }
 
 function loopVideo(newDiv) {
-  const loopAction = document.querySelector(".ytp-menuitem-label");
+  const video = document.querySelector("video");
 
-  if (!loopAction) {
+  if (!video) {
     return;
   }
 
-  loopAction.click();
+  video.loop = !video.loop;
   newDiv.children[0].children[0].classList.toggle("d-none");
   newDiv.children[0].children[1].classList.toggle("d-none");
 }
