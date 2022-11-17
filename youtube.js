@@ -1,5 +1,9 @@
 function getPlaylistVidoesTitles() {
-  const playlistName = document.getElementById("text-displayed").innerText;
+  const playlistName = document
+    .querySelector(
+      ".dynamic-text-container.style-scope.yt-dynamic-sizing-formatted-string"
+    )
+    .innerText.trim();
   const videos = document.querySelectorAll("ytd-playlist-video-renderer");
   const titles = [];
 
@@ -34,11 +38,9 @@ function getPlaylistVidoesTitles() {
 }
 
 function addLoopVideoIcon(newDiv) {
-  const info_bar = document.querySelector(
-    "div#info.style-scope.ytd-video-primary-info-renderer"
-  );
+  const dislike_btns = document.querySelectorAll("#segmented-dislike-button");
 
-  if (!info_bar) {
+  if (dislike_btns.length == 0) {
     return;
   }
 
@@ -81,15 +83,15 @@ function addLoopVideoIcon(newDiv) {
 <p>Loop Video</p>
 `;
 
-  info_bar.children[2].children[0].children[0].children[0].append(newDiv);
+  dislike_btns[0].parentElement.parentElement.append(newDiv);
 }
 
 function addBackupIcon(newDiv) {
-  const yt_menu = document.querySelector(
-    "div#menu.style-scope.ytd-playlist-sidebar-primary-info-renderer"
+  const yt_menu = document.querySelectorAll(
+    ".metadata-buttons-wrapper.style-scope.ytd-playlist-header-renderer"
   );
 
-  if (!yt_menu) {
+  if (yt_menu.length == 0) {
     return;
   }
 
@@ -108,7 +110,7 @@ function addBackupIcon(newDiv) {
 </button>
   `;
 
-  yt_menu.children[0].children[0].append(newDiv);
+  yt_menu[0].append(newDiv);
 }
 
 function checkUrl(str) {
@@ -129,10 +131,10 @@ function loopVideo(newDiv) {
 
 setInterval(() => {
   if (checkUrl("/playlist?list=")) {
-    const isbackupExists =
+    const isBackupExists =
       document.getElementsByClassName("custom-button-backup").length == 0;
 
-    if (!isbackupExists) {
+    if (!isBackupExists) {
       return;
     }
 
@@ -143,10 +145,10 @@ setInterval(() => {
   }
 
   if (checkUrl("/watch?v=")) {
-    const isloopVideoButton =
+    const isLoopVideoButton =
       document.getElementsByClassName("custom-button-loop").length == 0;
 
-    if (!isloopVideoButton) {
+    if (!isLoopVideoButton) {
       return;
     }
 
