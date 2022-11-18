@@ -9,7 +9,7 @@ function getPlaylistVidoesTitles() {
 
   for (let video of videos) {
     titles.push(
-      video.children[1].children[0].children[1].textContent
+      video.children[1].children[0].children[1].children[0].textContent
         .replaceAll("\n", "")
         .replaceAll(/ +(?= )/g, "")
         .replaceAll("•", "")
