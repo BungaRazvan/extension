@@ -4,6 +4,10 @@
   "version": "1.0",
   "manifest_version": 3,
 
+  "background": {
+    "service_worker": "background.js"
+  },
+
   "content_scripts": [
     {
       "js": ["youtube.js"],
@@ -15,5 +19,5 @@
       ]
     }
   ],
-  "permissions": ["storage"]
+  "permissions": ["storage", "contextMenus", "tabs", "bookmarks"]
 }
