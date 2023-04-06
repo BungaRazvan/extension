@@ -129,6 +129,18 @@ function loopVideo(newDiv) {
   newDiv.children[0].children[1].classList.toggle("d-none");
 }
 
+function removeShorts() {
+  const shorts = document.querySelectorAll(
+    "#title-container.style-scope.ytd-reel-shelf-renderer"
+  );
+
+  if (!shorts.length) {
+    return;
+  }
+
+  shorts[0].parentElement.style.display = "none";
+}
+
 setInterval(() => {
   if (checkUrl("/playlist?list=")) {
     const isBackupExists =
@@ -145,6 +157,8 @@ setInterval(() => {
   }
 
   if (checkUrl("/watch?v=")) {
+    removeShorts();
+
     const isLoopVideoButton =
       document.getElementsByClassName("custom-button-loop").length == 0;
 
