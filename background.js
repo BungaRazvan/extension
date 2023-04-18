@@ -1,6 +1,16 @@
 const pixivId = "pixiv_bookmark";
+const pixivFolderBaseName = "pixiv";
 
 let pixivContextMenuBookmark = false;
+
+const findPixivFolder = async () => {
+  const tree = await chrome.bookmarks.getTree();
+
+  return travelBookmark(
+    tree[0].children[0].children,
+    (leaf) => leaf.children && leaf.title.includes(pixivFolderBaseName)
+  );
+};
 
 const travelBookmark = (tree, condition) => {
   let foundElement = null;
@@ -52,16 +62,43 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 
   if (info.menuItemId == pixivId) {
-    const tree = await chrome.bookmarks.getTree();
-    const findPixivFolder = (leaf) => leaf.children && leaf.title == "pixiv";
-    const pixivFolder = travelBookmark(
-      tree[0].children[0].children,
-      findPixivFolder
-    );
+    const pixivFolder = await findPixivFolder();
+
+    if (!pixivFolder) {
+      return;
+    }
+
+    const numBookmarks = pixivFolder.children.length;
+    const newTitle = `${pixivFolderBaseName} (${numBookmarks})`;
+
+    if (pixivFolder.title.includes(numBookmarks)) {
+      chrome.bookmarks.update(pixivFolder.id, { title: pixivFolderBaseName });
+      chrome.bookmarks.update(pixivFolder.id, { title: newTitle });
+    } else {
+      chrome.bookmarks.update(pixivFolder.id, { title: newTitle });
+    }
+
     chrome.bookmarks.create({
       parentId: pixivFolder.id,
       url: info.linkUrl,
       title: "Kinki Picture",
     });
+  }
+});
+
+chrome.bookmarks.onRemoved.addListener(async (id, removeInfo) => {
+  const pixivFolder = await findPixivFolder();
+
+  if (!pixivFolder) {
+    return;
+  }
+
+  if (removeInfo.parentId == pixivFolder.id) {
+    setTimeout(() => {
+      const numBookmarks = pixivFolder.children.length;
+      const newTitle = `${pixivFolderBaseName} (${removeInfo.index - 1})`;
+      chrome.bookmarks.update(pixivFolder.id, { title: pixivFolderBaseName });
+      chrome.bookmarks.update(pixivFolder.id, { title: newTitle });
+    }, 100);
   }
 });
