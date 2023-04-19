@@ -94,11 +94,10 @@ chrome.bookmarks.onRemoved.addListener(async (id, removeInfo) => {
   }
 
   if (removeInfo.parentId == pixivFolder.id) {
-    setTimeout(() => {
-      const numBookmarks = pixivFolder.children.length;
-      const newTitle = `${pixivFolderBaseName} (${removeInfo.index - 1})`;
-      chrome.bookmarks.update(pixivFolder.id, { title: pixivFolderBaseName });
-      chrome.bookmarks.update(pixivFolder.id, { title: newTitle });
-    }, 100);
+    const newTitle = `${pixivFolderBaseName} (${
+      pixivFolder.children.length - 1
+    })`;
+    chrome.bookmarks.update(pixivFolder.id, { title: pixivFolderBaseName });
+    chrome.bookmarks.update(pixivFolder.id, { title: newTitle });
   }
 });
