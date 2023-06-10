@@ -1,8 +1,8 @@
 function getPlaylistVidoesTitles() {
   const playlistName = document
-    .querySelector(
+    .querySelectorAll(
       ".dynamic-text-container.style-scope.yt-dynamic-sizing-formatted-string"
-    )
+    )[1]
     .innerText.trim();
   const videos = document.querySelectorAll("ytd-playlist-video-renderer");
   const titles = [];
