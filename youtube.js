@@ -38,16 +38,18 @@ function getPlaylistVidoesTitles() {
 }
 
 function addLoopVideoIcon(newDiv) {
-  const dislike_btns = document.querySelectorAll("#segmented-dislike-button");
+  const dislike_btns = document.querySelectorAll(
+    "#actions #actions-inner #menu"
+  );
 
   if (dislike_btns.length == 0) {
     return;
   }
 
   newDiv.innerHTML = `
+  <div id="loop-btn-style" class="loop-btn-style">
   <button
-  id="button"
-  style="style-scope yt-icon-button"
+  id="custom-button-loop"
   class="custom-button-loop"
   aria-label="Loop Video"
 >
@@ -57,6 +59,7 @@ function addLoopVideoIcon(newDiv) {
     focusable="false"
     class="style-scope yt-icon"
     style="pointer-events: none; width: 80%"
+    id="custom-loop-icon-disabled"
   >
     <g class="style-scope yt-icon">
       <path
@@ -71,6 +74,7 @@ function addLoopVideoIcon(newDiv) {
     focusable="false"
     class="style-scope yt-icon d-none"
     style="pointer-events: none; width: 80%"
+    id="custom-loop-icon-active"
   >
     <g class="style-scope yt-icon">
       <path
@@ -81,9 +85,10 @@ function addLoopVideoIcon(newDiv) {
   </svg>
 </button>
 <p>Loop Video</p>
+</d>
 `;
 
-  dislike_btns[0].parentElement.parentElement.append(newDiv);
+  dislike_btns[0].append(newDiv);
 }
 
 function addBackupIcon(newDiv) {
@@ -125,8 +130,10 @@ function loopVideo(newDiv) {
   }
 
   video.loop = !video.loop;
-  newDiv.children[0].children[0].classList.toggle("d-none");
-  newDiv.children[0].children[1].classList.toggle("d-none");
+  document
+    .querySelector("#custom-loop-icon-disabled")
+    .classList.toggle("d-none");
+  document.querySelector("#custom-loop-icon-active").classList.toggle("d-none");
 }
 
 function removeShorts() {
@@ -167,9 +174,19 @@ setInterval(() => {
     }
 
     const newDiv = document.createElement("div");
-    newDiv.classList.add("custom-button-loop-container");
+
+    newDiv.classList.add(
+      "custom-button-loop-container",
+      "style-scope",
+      "ytd-watch-metadata"
+    );
 
     addLoopVideoIcon(newDiv);
-    newDiv.addEventListener("click", () => loopVideo(newDiv));
+
+    const loopBtn = document.querySelector("#loop-btn-style");
+
+    if (loopBtn) {
+      loopBtn.addEventListener("click", () => loopVideo(newDiv));
+    }
   }
 }, 1000);
