@@ -93,8 +93,6 @@ chrome.bookmarks.onRemoved.addListener(async (id, removeInfo) => {
     return;
   }
 
-  console.log(pixivFolder.children.length, { removeInfo });
-
   if (removeInfo.parentId == pixivFolder.id) {
     const newTitle = `${pixivFolderBaseName} (${pixivFolder.children.length})`;
     chrome.bookmarks.update(pixivFolder.id, { title: pixivFolderBaseName });
