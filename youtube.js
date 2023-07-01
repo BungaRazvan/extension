@@ -4,10 +4,26 @@ function getPlaylistVidoesTitles() {
       ".dynamic-text-container.style-scope.yt-dynamic-sizing-formatted-string"
     )[1]
     .innerText.trim();
+
+  const videosNumber =
+    Number(
+      document
+        .querySelector(
+          ".metadata-stats.style-scope.ytd-playlist-byline-renderer > .byline-item.style-scope.ytd-playlist-byline-renderer"
+        )
+        .innerText.split(" ")[0]
+    ) - 1;
+
   const videos = document.querySelectorAll("ytd-playlist-video-renderer");
   const titles = [];
 
-  for (let video of videos) {
+  for (let i = 0; i <= videosNumber; i++) {
+    const video = videos[i];
+
+    if (!video) {
+      continue;
+    }
+
     titles.push(
       video.children[1].children[0].children[1].children[0].textContent
         .replaceAll("\n", "")
