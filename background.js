@@ -3,12 +3,12 @@ const pixivFolderBaseName = "pixiv";
 
 let pixivContextMenuBookmark = false;
 
-const findPixivFolder = async () => {
+const findFolder = async (folderBaseName) => {
   const tree = await chrome.bookmarks.getTree();
 
   return travelBookmark(
     tree[0].children[0].children,
-    (leaf) => leaf.children && leaf.title.includes(pixivFolderBaseName)
+    (leaf) => leaf.children && leaf.title.includes(folderBaseName)
   );
 };
 
@@ -62,7 +62,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 
   if (info.menuItemId == pixivId) {
-    const pixivFolder = await findPixivFolder();
+    const pixivFolder = await findFolder(pixivFolderBaseName);
 
     if (!pixivFolder) {
       return;
@@ -81,22 +81,22 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     chrome.bookmarks.create({
       parentId: pixivFolder.id,
       url: info.linkUrl,
-      title: "Kinki Picture",
+      title: "Picture",
     });
   }
 });
 
 chrome.bookmarks.onRemoved.addListener(async (id, removeInfo) => {
-  const pixivFolder = await findPixivFolder();
+  const pixivFolder = await findFolder(pixivFolderBaseName);
 
   if (!pixivFolder) {
     return;
   }
 
+  console.log(pixivFolder.children.length, { removeInfo });
+
   if (removeInfo.parentId == pixivFolder.id) {
-    const newTitle = `${pixivFolderBaseName} (${
-      pixivFolder.children.length - 1
-    })`;
+    const newTitle = `${pixivFolderBaseName} (${pixivFolder.children.length})`;
     chrome.bookmarks.update(pixivFolder.id, { title: pixivFolderBaseName });
     chrome.bookmarks.update(pixivFolder.id, { title: newTitle });
   }
