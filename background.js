@@ -68,7 +68,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       return;
     }
 
-    const numBookmarks = pixivFolder.children.length;
+    const numBookmarks = pixivFolder.children.length + 1;
     const newTitle = `${pixivFolderBaseName} (${numBookmarks})`;
 
     if (pixivFolder.title.includes(numBookmarks)) {
