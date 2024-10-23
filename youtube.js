@@ -1,25 +1,11 @@
 function getPlaylistVidoesTitles() {
-  const playlistName = document
-    .querySelectorAll(
-      ".dynamic-text-container.style-scope.yt-dynamic-sizing-formatted-string"
-    )[1]
-    .innerText.trim();
+  const playlistName = document.title.replaceAll(" - YouTube", "").trim();
 
-  const videosNumber =
-    Number(
-      document
-        .querySelector(
-          ".metadata-stats.style-scope.ytd-playlist-byline-renderer > .byline-item.style-scope.ytd-playlist-byline-renderer"
-        )
-        .innerText.split(" ")[0]
-    ) - 1;
-
+  console.log(playlistName);
   const videos = document.querySelectorAll("ytd-playlist-video-renderer");
   const titles = [];
 
-  for (let i = 0; i <= videosNumber; i++) {
-    const video = videos[i];
-
+  for (let video of videos) {
     if (!video) {
       continue;
     }
@@ -101,7 +87,7 @@ function addLoopVideoIcon(newDiv) {
   </svg>
 </button>
 <p>Loop Video</p>
-</d>
+</div>
 `;
 
   dislike_btns[0].append(newDiv);
@@ -109,7 +95,7 @@ function addLoopVideoIcon(newDiv) {
 
 function addBackupIcon(newDiv) {
   const yt_menu = document.querySelectorAll(
-    ".metadata-buttons-wrapper.style-scope.ytd-playlist-header-renderer"
+    ".page-header-view-model-wiz__page-header-flexible-actions.yt-flexible-actions-view-model-wiz"
   );
 
   if (yt_menu.length == 0) {
@@ -120,7 +106,7 @@ function addBackupIcon(newDiv) {
   <button
   id="button"
   style="style-scope yt-icon-button"
-  class="custom-button-backup"
+  class="custom-button-backup yt-spec-button-shape-next yt-spec-button-shape-next--tonal yt-spec-button-shape-next--overlay yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--enable-backdrop-filter-experiment"
   aria-label="Backup"
 >
   <svg viewBox="0 0 24 24">
@@ -131,7 +117,7 @@ function addBackupIcon(newDiv) {
 </button>
   `;
 
-  yt_menu[0].append(newDiv);
+  yt_menu[1].children[0].append(newDiv);
 }
 
 function checkUrl(str) {
@@ -174,6 +160,11 @@ setInterval(() => {
     }
 
     const newDiv = document.createElement("div");
+    newDiv.classList.add(
+      "yt-flexible-actions-view-model-wiz__action",
+      "yt-flexible-actions-view-model-wiz__action--row-action",
+      "yt-flexible-actions-view-model-wiz__action--icon-only-button"
+    );
 
     addBackupIcon(newDiv);
     newDiv.addEventListener("click", () => getPlaylistVidoesTitles());
@@ -192,9 +183,13 @@ setInterval(() => {
     const newDiv = document.createElement("div");
 
     newDiv.classList.add(
-      "custom-button-loop-container",
-      "style-scope",
-      "ytd-watch-metadata"
+      "custom-button-loop-container"
+      // "yt-spec-button-shape-next",
+      // "yt-spec-button-shape-next--tonal",
+      // "yt-spec-button-shape-next--mono",
+      // "yt-spec-button-shape-next--size-m",
+      // "yt-spec-button-shape-next--icon-leading",
+      // "yt-spec-button-shape-next--enable-backdrop-filter-experiment"
     );
 
     addLoopVideoIcon(newDiv);
