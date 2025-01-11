@@ -1,8 +1,8 @@
 function getPlaylistVidoesTitles() {
   const playlistName = document.title.replaceAll(" - YouTube", "").trim();
 
-  console.log(playlistName);
-  const videos = document.querySelectorAll("ytd-playlist-video-renderer");
+  const videoContainer = document.getElementById("contents");
+  const videos = videoContainer.querySelectorAll("ytd-playlist-video-renderer");
   const titles = [];
 
   for (let video of videos) {
@@ -21,7 +21,7 @@ function getPlaylistVidoesTitles() {
 
   const file = new File(
     [JSON.stringify({ [playlistName]: titles })],
-    "foo.json",
+    `${playlistName}_songs.json`,
     {
       type: "application/json",
     }
@@ -30,7 +30,7 @@ function getPlaylistVidoesTitles() {
   const fileUrl = URL.createObjectURL(file);
   const anchor = document.createElement("a");
   anchor.href = fileUrl;
-  anchor.download = "foo.json";
+  anchor.download = `${playlistName}_songs.json`;
   document.body.appendChild(anchor);
   anchor.click();
 
