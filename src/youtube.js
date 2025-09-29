@@ -97,6 +97,7 @@ function addBackupIcon(newDiv) {
   const yt_menu = document.querySelectorAll(
     ".page-header-view-model-wiz__page-header-flexible-actions.yt-flexible-actions-view-model-wiz"
   );
+  console.log({ yt_menu });
 
   if (yt_menu.length == 0) {
     return;
@@ -124,7 +125,7 @@ function checkUrl(str) {
   return window.location.href.includes(str);
 }
 
-function loopVideo(newDiv) {
+function loopVideo() {
   const video = document.querySelector("video");
 
   if (!video) {
@@ -150,11 +151,22 @@ function removeShorts() {
   shorts[0].parentElement.style.display = "none";
 }
 
+async function fetchPlaylist(url) {
+  const res = await fetch("http://localhost:3000/list_songs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url }),
+  });
+  const data = await res.json();
+  console.log(data.songs);
+}
+
 setInterval(() => {
   if (checkUrl("/playlist?list=")) {
     const isBackupExists =
       document.getElementsByClassName("custom-button-backup").length == 0;
 
+    console.log(isBackupExists);
     if (!isBackupExists) {
       return;
     }
@@ -197,7 +209,7 @@ setInterval(() => {
     const loopBtn = document.querySelector("#loop-btn-style");
 
     if (loopBtn) {
-      loopBtn.addEventListener("click", () => loopVideo(newDiv));
+      loopBtn.addEventListener("click", () => loopVideo());
     }
   }
 }, 1000);
