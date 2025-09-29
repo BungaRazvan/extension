@@ -17,6 +17,10 @@
       ]
     }
   ],
-  "permissions": ["storage", "contextMenus", "tabs", "bookmarks"],
-  "host_permissions": ["*://*.youtube.com/*"]
+  "permissions": ["storage", "contextMenus", "tabs", "bookmarks", "scripting"],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "http://localhost:8000/*",
+    "https://backbone.razvan.app"
+  ]
 }

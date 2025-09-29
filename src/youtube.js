@@ -1,42 +1,14 @@
-function getPlaylistVidoesTitles() {
-  const playlistName = document.title.replaceAll(" - YouTube", "").trim();
+import { fetchFromBackground } from "./utils";
 
-  const videoContainer = document.getElementById("contents");
-  const videos = videoContainer.querySelectorAll("ytd-playlist-video-renderer");
-  const titles = [];
+async function getPlaylistVidoesTitles() {
+  const rawTitle = document.title;
 
-  for (let video of videos) {
-    if (!video) {
-      continue;
-    }
+  const playlistName = rawTitle.replace(/- YouTube$/i, "").trim();
 
-    titles.push(
-      video.children[1].children[0].children[1].children[0].textContent
-        .replaceAll("\n", "")
-        .replaceAll(/ +(?= )/g, "")
-        .replaceAll("•", "")
-        .trim()
-    );
-  }
-
-  const file = new File(
-    [JSON.stringify({ [playlistName]: titles })],
-    `${playlistName}_songs.json`,
-    {
-      type: "application/json",
-    }
-  );
-
-  const fileUrl = URL.createObjectURL(file);
-  const anchor = document.createElement("a");
-  anchor.href = fileUrl;
-  anchor.download = `${playlistName}_songs.json`;
-  document.body.appendChild(anchor);
-  anchor.click();
-
-  // Clean up
-  document.body.removeChild(anchor);
-  URL.revokeObjectURL(fileUrl);
+  const data = await fetchFromBackground("/discord/get-youtube-tracks", "get", {
+    url: window.location.href,
+  });
+  console.log("Tracks:", data);
 }
 
 function addLoopVideoIcon(newDiv) {
@@ -97,7 +69,6 @@ function addBackupIcon(newDiv) {
   const yt_menu = document.querySelectorAll(
     ".page-header-view-model-wiz__page-header-flexible-actions.yt-flexible-actions-view-model-wiz"
   );
-  console.log({ yt_menu });
 
   if (yt_menu.length == 0) {
     return;
@@ -151,22 +122,11 @@ function removeShorts() {
   shorts[0].parentElement.style.display = "none";
 }
 
-async function fetchPlaylist(url) {
-  const res = await fetch("http://localhost:3000/list_songs", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url }),
-  });
-  const data = await res.json();
-  console.log(data.songs);
-}
-
 setInterval(() => {
   if (checkUrl("/playlist?list=")) {
     const isBackupExists =
       document.getElementsByClassName("custom-button-backup").length == 0;
 
-    console.log(isBackupExists);
     if (!isBackupExists) {
       return;
     }

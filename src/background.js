@@ -1,3 +1,5 @@
+import api from "./utils";
+
 const pixivId = "pixiv_bookmark";
 const pixivFolderBaseName = "pixiv";
 
@@ -97,5 +99,19 @@ chrome.bookmarks.onRemoved.addListener(async (id, removeInfo) => {
     const newTitle = `${pixivFolderBaseName} (${pixivFolder.children.length})`;
     chrome.bookmarks.update(pixivFolder.id, { title: pixivFolderBaseName });
     chrome.bookmarks.update(pixivFolder.id, { title: newTitle });
+  }
+});
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg.type === "fetch") {
+    try {
+      api(msg.endpoint, msg.params, msg.method)
+        .then((data) => sendResponse({ success: true, data }))
+        .catch((err) => sendResponse({ success: false, error: err.message }));
+    } catch (err) {
+      sendResponse({ success: false, error: err.message });
+    }
+
+    return true;
   }
 });
