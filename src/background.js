@@ -115,3 +115,23 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
 });
+
+chrome.sidePanel
+  .setPanelBehavior({ openPanelOnActionClick: true })
+  .catch((error) => console.error(error));
+
+chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
+  if (!tab.url) return;
+
+  const url = new URL(tab.url);
+
+  if (url.hostname === "www.youtube.com") {
+    await chrome.sidePanel.setOptions({
+      tabId,
+      path: "html/youtube_sidepanel.html",
+      enabled: true,
+    });
+  } else {
+    await chrome.sidePanel.setOptions({ tabId, enabled: false });
+  }
+});

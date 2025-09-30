@@ -1,5 +1,5 @@
-// const url = "https://backbone.razvan.app";
-const url = "http://localhost:8000";
+// export const BASE_URL = "https://backbone.razvan.app";
+export const BASE_URL = "http://localhost:8000";
 
 export function fetchFromBackground(endpoint, method = "get", params = {}) {
   return new Promise((resolve, reject) => {
@@ -40,7 +40,7 @@ export default api = async (path, params = {}, method = "get") => {
     },
     body: httpMethod === "POST" ? JSON.stringify(params) : undefined,
   };
-  const res = await fetch(`${url}/${path}${queryString}`, fetchOptions);
+  const res = await fetch(`${BASE_URL}/${path}${queryString}`, fetchOptions);
 
   if (!res.ok) {
     throw new Error(`API request failed: ${res.status}`);

@@ -17,7 +17,14 @@
       ]
     }
   ],
-  "permissions": ["storage", "contextMenus", "tabs", "bookmarks", "scripting"],
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "tabs",
+    "bookmarks",
+    "scripting",
+    "sidePanel"
+  ],
   "host_permissions": [
     "*://*.youtube.com/*",
     "http://localhost:8000/*",

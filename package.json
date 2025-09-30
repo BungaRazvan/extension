@@ -5,8 +5,9 @@
   "scripts": {
     "copy:css": "cp -r src/css dist/",
     "copy:man": "cp -r manifest.json dist/",
-    "build": "npm run copy:man && run copy:css && esbuild src/*.js --bundle --outdir=dist",
-    "watch": "npm run copy:man && npm run copy:css && esbuild src/*.js --bundle --outdir=dist --watch"
+    "copy:html": "cp -r src/html dist/",
+    "build": "npm run copy:man && npm run copy:html && run copy:css && esbuild src/*.js --bundle --outdir=dist",
+    "watch": "npm run copy:man && npm run copy:html && npm run copy:css && esbuild src/*.js --bundle --outdir=dist --watch"
   },
   "keywords": [],
   "author": "",
