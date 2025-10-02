@@ -7,13 +7,14 @@
     "copy:man": "cp -r manifest.json dist/",
     "copy:html": "cp -r src/html dist/",
     "build": "npm run copy:man && npm run copy:html && run copy:css && esbuild src/*.js --bundle --outdir=dist",
-    "watch": "npm run copy:man && npm run copy:html && npm run copy:css && esbuild src/*.js --bundle --outdir=dist --watch"
+    "watch": "chokidar 'src/**/*' 'manifest.json' '*.html' 'css/**/*' -c \"npm run build\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "chokidar-cli": "^3.0.0",
     "esbuild": "^0.25.10"
   }
 }

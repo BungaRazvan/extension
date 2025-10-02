@@ -28,6 +28,6 @@
   "host_permissions": [
     "*://*.youtube.com/*",
     "http://localhost:8000/*",
-    "https://backbone.razvan.app"
+    "https://backbone.razvan.app/*"
   ]
 }
