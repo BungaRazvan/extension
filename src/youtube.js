@@ -1,16 +1,3 @@
-import { fetchFromBackground } from "./utils";
-
-async function getPlaylistVidoesTitles() {
-  const rawTitle = document.title;
-
-  const playlistName = rawTitle.replace(/- YouTube$/i, "").trim();
-
-  const data = await fetchFromBackground("/discord/get-youtube-tracks", "get", {
-    url: window.location.href,
-  });
-  console.log("Tracks:", data);
-}
-
 function addLoopVideoIcon(newDiv) {
   const dislike_btns = document.querySelectorAll(
     "#actions #actions-inner #menu"
