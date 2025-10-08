@@ -3,15 +3,14 @@
   "description": "Custom features",
   "version": "1.0",
   "manifest_version": 3,
-
   "background": {
     "service_worker": "background.js"
   },
-
+  "options_page": "html/options.html",
   "content_scripts": [
     {
       "js": ["youtube.js"],
-      "css": ["youtube.css"],
+      "css": ["css/youtube.css"],
       "matches": [
         "https://www.youtube.com/",
         "https://www.youtube.com/watch?v=*",
@@ -19,5 +18,12 @@
       ]
     }
   ],
-  "permissions": ["storage", "contextMenus", "tabs", "bookmarks"]
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "tabs",
+    "bookmarks",
+    "scripting",
+    "sidePanel"
+  ]
 }

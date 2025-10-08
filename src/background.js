@@ -1,3 +1,5 @@
+import api from "./utils";
+
 const pixivId = "pixiv_bookmark";
 const pixivFolderBaseName = "pixiv";
 
@@ -97,5 +99,40 @@ chrome.bookmarks.onRemoved.addListener(async (id, removeInfo) => {
     const newTitle = `${pixivFolderBaseName} (${pixivFolder.children.length})`;
     chrome.bookmarks.update(pixivFolder.id, { title: pixivFolderBaseName });
     chrome.bookmarks.update(pixivFolder.id, { title: newTitle });
+  }
+});
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg.type === "fetch") {
+    try {
+      api(msg.endpoint, msg.params, msg.method, msg.headers)
+        .then((data) => sendResponse({ success: true, data }))
+
+        .catch((err) => sendResponse({ success: false, error: err.message }));
+    } catch (err) {
+      sendResponse({ success: false, error: err.message });
+    }
+
+    return true;
+  }
+});
+
+chrome.sidePanel
+  .setPanelBehavior({ openPanelOnActionClick: true })
+  .catch((error) => console.error(error));
+
+chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
+  if (!tab.url) return;
+
+  const url = new URL(tab.url);
+
+  if (url.hostname === "www.youtube.com" && url.searchParams.get("list")) {
+    await chrome.sidePanel.setOptions({
+      tabId,
+      path: "html/youtube_sidepanel.html",
+      enabled: true,
+    });
+  } else {
+    await chrome.sidePanel.setOptions({ tabId, enabled: false });
   }
 });
