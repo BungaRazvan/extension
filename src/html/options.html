@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Extension Settings</title>
+    <style>
+      /* Global dark theme */
+      body {
+        background-color: #1e1e1e;
+        color: #f0f0f0;
+        font-family: Arial, sans-serif;
+        padding: 30px;
+      }
+
+      h2 {
+        color: #ffffff;
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #444;
+        border-radius: 6px;
+        background-color: #2a2a2a;
+        color: #f0f0f0;
+        font-size: 14px;
+        outline: none;
+        transition: border 0.2s;
+      }
+
+      input[type="text"]:focus {
+        border: 1px solid #5a9bf6;
+      }
+
+      button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        background-color: #5a9bf6;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      button:hover {
+        background-color: #3b7ddd;
+      }
+
+      .status {
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 400px) {
+        input[type="text"] {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>API Token Settings</h2>
+    <input type="text" id="apiToken" placeholder="Enter your API token" />
+
+    <h2>API URL</h2>
+    <input type="text" id="apiUrl" placeholder="Enter your API token" />
+    <button id="saveBtn">Save</button>
+    <div class="status" id="status"></div>
+
+    <script src="options.js"></script>
+  </body>
+</html>

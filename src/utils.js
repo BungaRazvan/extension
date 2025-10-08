@@ -26,7 +26,12 @@ export function fetchFromBackground(endpoint, method = "get", params = {}) {
   });
 }
 
-export default api = async (path, params = {}, method = "get") => {
+export default api = async (
+  path,
+  params = {},
+  method = "get",
+  headers = {}
+) => {
   const httpMethod = method.toUpperCase();
   const queryString =
     httpMethod === "GET" && Object.keys(params).length
@@ -35,21 +40,28 @@ export default api = async (path, params = {}, method = "get") => {
 
   const fetchOptions = {
     method: httpMethod,
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: {},
     body: httpMethod === "POST" ? JSON.stringify(params) : undefined,
   };
-  const res = await fetch(`${BASE_URL}/${path}${queryString}`, fetchOptions);
 
+  if (headers && Object.keys(headers).length) {
+    fetchOptions.headers = {
+      ...fetchOptions.headers,
+      ...headers,
+    };
+  }
+  const res = await fetch(`${BASE_URL}/${path}${queryString}`, fetchOptions);
   if (!res.ok) {
     throw new Error(`API request failed: ${res.status}`);
   }
 
-  try {
-    const data = await res.json();
-    return data;
-  } catch {
-    return null;
+  const contentType = res.headers.get("content-type") || "";
+
+  if (contentType.includes("application/json")) {
+    // parse JSON if response is JSON
+    return await res.json();
+  } else {
+    // otherwise, return raw text (HTML or plain text)
+    return await res.text();
   }
 };

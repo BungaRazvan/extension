@@ -105,8 +105,9 @@ chrome.bookmarks.onRemoved.addListener(async (id, removeInfo) => {
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type === "fetch") {
     try {
-      api(msg.endpoint, msg.params, msg.method)
+      api(msg.endpoint, msg.params, msg.method, msg.headers)
         .then((data) => sendResponse({ success: true, data }))
+
         .catch((err) => sendResponse({ success: false, error: err.message }));
     } catch (err) {
       sendResponse({ success: false, error: err.message });
@@ -125,7 +126,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
 
   const url = new URL(tab.url);
 
-  if (url.hostname === "www.youtube.com") {
+  if (url.hostname === "www.youtube.com" && url.searchParams.get("list")) {
     await chrome.sidePanel.setOptions({
       tabId,
       path: "html/youtube_sidepanel.html",

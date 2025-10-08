@@ -6,6 +6,7 @@
   "background": {
     "service_worker": "background.js"
   },
+  "options_page": "html/options.html",
   "content_scripts": [
     {
       "js": ["youtube.js"],
@@ -24,10 +25,5 @@
     "bookmarks",
     "scripting",
     "sidePanel"
-  ],
-  "host_permissions": [
-    "*://*.youtube.com/*",
-    "http://localhost:8000/*",
-    "https://backbone.razvan.app/*"
   ]
 }
