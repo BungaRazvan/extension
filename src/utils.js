@@ -1,6 +1,3 @@
-// export const BASE_URL = "https://backbone.razvan.app";
-export const BASE_URL = "http://localhost:8000";
-
 export function fetchFromBackground(endpoint, method = "get", params = {}) {
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage(
