@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -66,13 +66,22 @@
     </style>
   </head>
   <body>
-    <h2>API Token Settings</h2>
-    <input type="text" id="apiToken" placeholder="Enter your API token" />
+    <div>
+      <div>
+        <h1>API Settings</h1>
+      </div>
+      <h2>Token</h2>
+      <input type="text" id="apiToken" placeholder="Enter your API token" />
 
-    <h2>API URL</h2>
-    <input type="text" id="apiUrl" placeholder="Enter your API token" />
-    <button id="saveBtn">Save</button>
-    <div class="status" id="status"></div>
+      <h2>URL</h2>
+      <input type="text" id="apiUrl" placeholder="Enter your API token" />
+      <button id="saveBtnAPI">Save</button>
+      <div class="status" id="status"></div>
+    </div>
+
+    <div>
+      <div><h1>Bookmark Settings</h1></div>
+    </div>
 
     <script src="options.js"></script>
   </body>

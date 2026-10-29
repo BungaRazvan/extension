@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tokenInput = document.getElementById("apiToken");
   const apiInput = document.getElementById("apiUrl");
 
-  const saveBtn = document.getElementById("saveBtn");
+  const saveBtnAPI = document.getElementById("saveBtnAPI");
   const status = document.getElementById("status");
 
   // Load saved token on page load
@@ -17,9 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Save token when button is clicked
-  saveBtn.addEventListener("click", () => {
+  saveBtnAPI.addEventListener("click", () => {
     const token = tokenInput.value.trim();
     const apiUrl = apiInput.value.trim();
+
     if (!token) {
       status.textContent = "Please enter a valid token.";
       status.style.color = "red";

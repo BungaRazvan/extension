@@ -2,7 +2,7 @@ import api from "./utils";
 
 const pixivId = "pixiv_bookmark";
 const pixivFolderBaseName = "pixiv";
-
+const DEFAULT_FOLDER_ID = "1";
 let pixivContextMenuBookmark = false;
 
 const findFolder = async (folderBaseName) => {
@@ -10,7 +10,7 @@ const findFolder = async (folderBaseName) => {
 
   return travelBookmark(
     tree[0].children[0].children,
-    (leaf) => leaf.children && leaf.title.includes(folderBaseName)
+    (leaf) => leaf.children && leaf.title.includes(folderBaseName),
   );
 };
 
@@ -54,7 +54,7 @@ setInterval(() => {
           contexts: ["link", "selection"], // ContextType
         });
       }
-    }
+    },
   );
 }, 1000);
 
@@ -85,6 +85,29 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       url: info.linkUrl,
       title: "Picture",
     });
+
+    setTimeout(() => {
+      isResetting = true;
+
+      // 1. Create a temporary bookmark inside your default folder
+      chrome.bookmarks.create(
+        {
+          parentId: DEFAULT_FOLDER_ID,
+          title: "Temp Reset Marker",
+          url: "https://reset.internal",
+        },
+        (tempBookmark) => {
+          // 2. Instantly delete it
+          chrome.bookmarks.remove(tempBookmark.id, () => {
+            isResetting = false;
+            console.log(
+              "Reset Chrome's default bookmark location back to folder ID:",
+              DEFAULT_FOLDER_ID,
+            );
+          });
+        },
+      );
+    }, 1500);
   }
 });
 
